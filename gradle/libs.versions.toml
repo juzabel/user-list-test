@@ -1,0 +1,108 @@
+[versions]
+
+# Libraries
+activity-compose = "1.8.0"
+androidx-junit = "1.1.5"
+core-ktx = "1.12.0"
+espresso-core = "3.5.1"
+junit = "4.13.2"
+ktlint-version = "1.0.1"
+compose-bom = "2023.10.00"
+moshi-version = "1.14.0"
+datastore-version = "1.0.0"
+
+# - Networking
+retrofit-version = "2.9.0"
+okHttp-version = "4.11.0"
+logging-version = "4.11.0"
+
+# - Database
+room-version = "2.6.0-rc01"
+
+# - Koin
+koin-version = "3.5.0"
+koin-compose-version = "1.1.0"
+
+# Plugins
+android-gradle-plugin = "8.1.2"
+kotlin = "1.9.10"
+detekt-gradle-plugin = "1.23.1"
+ktlint-gradle-plugin = "11.6.1"
+lifecycle-runtime-ktx = "2.6.2"
+ksp-version = "1.9.10-1.0.13"
+
+# Other
+kotlin-compiler-extension = "1.5.3"
+appcompat = "1.6.1"
+material = "1.10.0"
+
+[libraries]
+
+# Versioned
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
+activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
+core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
+detekt-gradle-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt-gradle-plugin" }
+ext-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }
+ktlint-gradle = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlint-gradle-plugin" }
+lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
+moshi = {module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi-version"}
+datastore = {module = "androidx.datastore:datastore-preferences", version.ref = "datastore-version"}
+
+# - Networking
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit-version" }
+retrofit-moshi-converter = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit-version" }
+okHttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okHttp-version" }
+logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "logging-version" }
+
+# - Database
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room-version" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room-version" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room-version" }
+
+# - Koin
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin-version" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin-version" }
+koin-test-junit = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin-version" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin-version" }
+koin-navigation = {module = "io.insert-koin:koin-androidx-navigation", version.ref = "koin-version"}
+koin-compose-androidx = {module = "io.insert-koin:koin-androidx-compose", version.ref = "koin-version"}
+koin-compose = {module = "io.insert-koin:koin-androidx-compose", version.ref = "koin-compose-version"}
+# Versioned test
+junit = { module = "junit:junit", version.ref = "junit" }
+espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso-core" }
+
+# Unversioned
+compose-ui = { module = "androidx.compose.ui:ui" }
+compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+compose-material3 = { module = "androidx.compose.material3:material3" }
+
+# Unversioned test
+compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+
+# Unversioned debug only
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+[plugins]
+
+android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint-gradle-plugin" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt-gradle-plugin" }
+com-android-library = { id = "com.android.library", version.ref = "android-gradle-plugin" }
+ksp-plugin = { id = "com.google.devtools.ksp", version.ref = "ksp-version" }
+
+[bundles]
+koin-view-bundle = ["koin-core", "koin-android", "koin-compose","koin-compose-androidx", "koin-navigation" ]
+koin-bundle = ["koin-core", "koin-android"]
+koin-test-bundle = ["koin-test", "koin-test-junit"]
+database-bundle = ["room-runtime", "room-ktx"]
+networking-bundle = ["okHttp", "retrofit", "retrofit-moshi-converter", "logging-interceptor", "moshi"]
+debug-bundle = ["compose-ui-tooling", "compose-ui-test-manifest"]
+android-test-bundle = ["ext-junit", "espresso-core", "compose-ui-test-junit4"]
+ktx-bundle = ["core-ktx", "lifecycle-runtime-ktx"]
+compose-bundle = ["activity-compose", "compose-ui", "compose-ui-graphics", "compose-ui-tooling-preview", "compose-material3"]
