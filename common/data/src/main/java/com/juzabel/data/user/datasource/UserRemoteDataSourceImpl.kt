@@ -1,16 +1,16 @@
-package com.juzabel.userlist.model.datasource
+package com.juzabel.data.user.datasource
 
+import com.juzabel.common.viewmodel.user.datasource.UserDataSource
+import com.juzabel.common.viewmodel.user.model.User
+import com.juzabel.data.user.mapper.mapToDomain
 import com.juzabel.errors.Error
-import com.juzabel.network.models.exceptions.UnknownException
 import com.juzabel.network.services.UserService
-import com.juzabel.userlist.model.mapper.mapToDomain
-import com.juzabel.userlist.viewModel.datasource.UserDataSource
-import com.juzabel.userlist.viewModel.model.User
 import com.juzabel.util.result.AResult
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import org.koin.core.component.KoinComponent
+import java.net.UnknownHostException
 
 class UserRemoteDataSourceImpl(
     private val service: UserService,
@@ -21,9 +21,9 @@ class UserRemoteDataSourceImpl(
             with(service.getUserList(page)) {
                 emit(AResult.Success(data.mapToDomain()))
             }
-        } catch (e: UnknownException) {
+        } catch (e: UnknownHostException) {
             e.printStackTrace()
-            emit(AResult.Failure(Error.Unknown("Unknown error")))
+            emit(AResult.Failure(Error.Unknown("No network")))
         }
     }.flowOn(backgroundDispatcher)
 
@@ -32,9 +32,9 @@ class UserRemoteDataSourceImpl(
             with(service.getUser(id)) {
                 emit(AResult.Success(data.mapToDomain()))
             }
-        } catch (e: UnknownException) {
+        } catch (e: UnknownHostException) {
             e.printStackTrace()
-            emit(AResult.Failure(Error.Unknown("Unknown error")))
+            emit(AResult.Failure(Error.Unknown("No network")))
         }
     }.flowOn(backgroundDispatcher)
 }

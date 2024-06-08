@@ -1,4 +1,4 @@
-package com.juzabel.userlist.viewModel.model
+package com.juzabel.common.viewmodel.user.model
 
 data class User(
     val avatar: String,

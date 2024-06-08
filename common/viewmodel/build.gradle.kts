@@ -2,24 +2,21 @@
 plugins {
     id(libs.plugins.com.android.library.get().pluginId)
     id(libs.plugins.kotlin.android.get().pluginId)
+    id(libs.plugins.ktlint.get().pluginId)
+    id(libs.plugins.detekt.get().pluginId)
 }
 
 android {
-    namespace = "com.juzabel.resources"
+    namespace = "com.juzabel.common.viewmodel"
     setupCommonAndroid()
     kotlinOptions {
         setKotlinJvmVersion()
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.kotlin.compiler.extension.get()
-    }
 }
 
 dependencies {
+    implementation(project(path = ":common:util"))
+    implementation(project(path = ":common:errors"))
     implementation(libs.core.ktx)
-    implementation(libs.bundles.compose.bundle)
-    implementation(platform(libs.compose.bom))
+    implementation(libs.bundles.ktx.bundle)
 }

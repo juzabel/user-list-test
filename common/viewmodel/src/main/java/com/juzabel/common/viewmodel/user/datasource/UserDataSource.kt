@@ -1,7 +1,7 @@
-package com.juzabel.userlist.viewModel.datasource
+package com.juzabel.common.viewmodel.user.datasource
 
+import com.juzabel.common.viewmodel.user.model.User
 import com.juzabel.errors.Error
-import com.juzabel.userlist.viewModel.model.User
 import com.juzabel.util.result.AResult
 import kotlinx.coroutines.flow.Flow
 

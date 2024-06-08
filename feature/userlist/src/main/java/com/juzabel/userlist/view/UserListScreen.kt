@@ -2,7 +2,6 @@ package com.juzabel.userlist.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,7 +15,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,18 +27,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.juzabel.common.viewmodel.user.model.User
+import com.juzabel.composables.ErrorMessage
+import com.juzabel.composables.Loading
 import com.juzabel.userlist.model.UserListState
 import com.juzabel.userlist.viewModel.UserListViewModel
-import com.juzabel.userlist.viewModel.model.User
 
 const val UserListScreenDestination = "UserListScreenDestination"
 
 @Composable
-fun UserListScreen(viewModel: UserListViewModel) {
+fun UserListScreen(viewModel: UserListViewModel, onNavigate: (destination: Long) -> Unit) {
     val userList by viewModel.userList.collectAsState()
     val state by viewModel.state.collectAsState()
     val error by viewModel.errorToShow.collectAsState()
@@ -48,6 +47,7 @@ fun UserListScreen(viewModel: UserListViewModel) {
         viewModel.onNextPage()
     }
     val itemClicked: (id: Long) -> Unit = {
+        onNavigate(it)
     }
 
     when (state) {
@@ -62,35 +62,8 @@ fun UserListScreen(viewModel: UserListViewModel) {
 }
 
 @Composable
-fun Loading() {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
-    ) {
-        CircularProgressIndicator(
-            modifier = Modifier.width(64.dp),
-            color = MaterialTheme.colorScheme.secondary,
-            trackColor = MaterialTheme.colorScheme.surfaceVariant
-        )
-    }
-}
-
-@Composable
-fun ErrorMessage(error: String?) {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Text(
-            text = stringResource(id = com.juzabel.resources.R.string.error_message) + " " + error,
-            style = MaterialTheme.typography.titleLarge
-        )
-    }
-}
-
-@Composable
 fun UserList(
-    userList: List<User>,
+    userList: List<com.juzabel.common.viewmodel.user.model.User>,
     nextPageAction: () -> Unit,
     itemClicked: (id: Long) -> Unit
 ) {
@@ -115,7 +88,7 @@ fun UserList(
 }
 
 @Composable
-fun UserItem(user: User, itemClicked: (id: Long) -> Unit) {
+fun UserItem(user: com.juzabel.common.viewmodel.user.model.User, itemClicked: (id: Long) -> Unit) {
     Column(
         modifier = Modifier
             .padding(8.dp)
@@ -184,9 +157,21 @@ fun UserListPreview() {
     UserList(getSampleList(), {}, { 0 })
 }
 
-private fun getSampleList(): List<User> {
+private fun getSampleList(): List<com.juzabel.common.viewmodel.user.model.User> {
     return arrayListOf(
-        User("url", "email@email.com", "Jules", 0, "Winter"),
-        User("url", "email2@email.com", "Paula", 0, "Spring")
+        com.juzabel.common.viewmodel.user.model.User(
+            "url",
+            "email@email.com",
+            "Jules",
+            0,
+            "Winter"
+        ),
+        com.juzabel.common.viewmodel.user.model.User(
+            "url",
+            "email2@email.com",
+            "Paula",
+            0,
+            "Spring"
+        )
     )
 }
