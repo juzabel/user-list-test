@@ -1,2 +1,2 @@
-# current-downloads
-App to manage downloaded files in Android
+# User list sample
+Sample app that downloads a user list and navigates into their detail

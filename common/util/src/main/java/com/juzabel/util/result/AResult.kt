@@ -1,6 +1,6 @@
 package com.juzabel.util.result
 
-sealed class AResult<T, E : Error> {
-    class Success<T, E : Error>(val value: T) : AResult<T, E>()
-    class Failure<T, E : Error>(val error: Error) : AResult<T, E>()
+sealed class AResult<T, E> {
+    class Success<T, E>(val value: T) : AResult<T, E>()
+    class Failure<T, E>(val error: E) : AResult<T, E>()
 }

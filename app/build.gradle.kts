@@ -55,15 +55,17 @@ android {
 }
 
 dependencies {
-    implementation(project(path = ":feature:test"))
+    implementation(project(":feature:userlist"))
     implementation(project(path = ":common:local"))
     implementation(project(path = ":common:network"))
+    implementation(project(path = ":common:util"))
 
     implementation(libs.bundles.koin.view.bundle)
     implementation(libs.bundles.ktx.bundle)
     implementation(libs.bundles.compose.bundle)
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.koin.bundle)
+    implementation(libs.navigation.compose)
     testImplementation(libs.bundles.koin.test.bundle)
     testImplementation(libs.junit)
     androidTestImplementation(libs.bundles.android.test.bundle)

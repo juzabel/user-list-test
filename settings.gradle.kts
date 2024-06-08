@@ -14,11 +14,15 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Juzabel Template"
+rootProject.name = "User List"
 include(":app")
 include(":common")
 include(":common:network")
 include(":common:local")
 include(":common:util")
 include(":feature")
-include(":feature:test")
+include(":feature:userlist")
+include(":common:domainerrors")
+include(":common:errors")
+include(":common:resources")
+include(":common:resources")
