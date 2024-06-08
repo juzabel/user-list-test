@@ -1,7 +1,7 @@
-package com.juzabel.userlist.model.mapper
+package com.juzabel.data.user.mapper
 
+import com.juzabel.common.viewmodel.user.model.User
 import com.juzabel.network.models.UserRemote
-import com.juzabel.userlist.viewModel.model.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

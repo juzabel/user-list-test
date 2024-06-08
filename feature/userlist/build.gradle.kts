@@ -25,6 +25,8 @@ dependencies {
     implementation(project(path = ":common:network"))
     implementation(project(path = ":common:util"))
     implementation(project(path = ":common:errors"))
+    implementation(project(path = ":common:viewmodel"))
+    implementation(project(path = ":common:data"))
     implementation(project(path = ":common:resources"))
     implementation(libs.bundles.compose.bundle)
     implementation(libs.bundles.paging.bundle)

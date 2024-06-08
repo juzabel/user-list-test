@@ -59,6 +59,7 @@ dependencies {
     implementation(project(path = ":common:local"))
     implementation(project(path = ":common:network"))
     implementation(project(path = ":common:util"))
+    implementation(project(":common:data"))
 
     implementation(libs.bundles.koin.view.bundle)
     implementation(libs.bundles.ktx.bundle)
@@ -66,6 +67,7 @@ dependencies {
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.koin.bundle)
     implementation(libs.navigation.compose)
+    implementation(project(":feature:userdetail"))
     testImplementation(libs.bundles.koin.test.bundle)
     testImplementation(libs.junit)
     androidTestImplementation(libs.bundles.android.test.bundle)

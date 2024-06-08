@@ -2,10 +2,10 @@ package com.juzabel.userlist.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.juzabel.common.viewmodel.user.datasource.UserDataSource
+import com.juzabel.common.viewmodel.user.model.User
 import com.juzabel.errors.Error
 import com.juzabel.userlist.model.UserListState
-import com.juzabel.userlist.viewModel.datasource.UserDataSource
-import com.juzabel.userlist.viewModel.model.User
 import com.juzabel.util.result.AResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -51,7 +51,7 @@ class UserListViewModel(
         if (it is AResult.Failure) it.error.message else null
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), null)
 
-    val userList: StateFlow<List<User>> = _stateResult.map {
+    val userList: StateFlow<List<com.juzabel.common.viewmodel.user.model.User>> = _stateResult.map {
 
         val success = (it is AResult.Success)
 

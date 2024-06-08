@@ -6,10 +6,10 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class ResponseRemote<T>(
     val data: T,
-    val page: Int,
+    val page: Int?,
     @Json(name = "per_page")
-    val perPage: Int,
-    val total: Int,
+    val perPage: Int?,
+    val total: Int?,
     @Json(name = "total_pages")
-    val totalPages: Int
+    val totalPages: Int?
 )

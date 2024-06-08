@@ -29,6 +29,8 @@ dependencies {
     implementation(libs.bundles.compose.bundle)
     implementation(libs.bundles.paging.bundle)
     implementation(platform(libs.compose.bom))
+    implementation(project(":common:viewmodel"))
+    implementation(project(":common:data"))
     androidTestImplementation(platform(libs.compose.bom))
     debugImplementation(libs.bundles.debug.bundle)
     implementation(libs.bundles.database.bundle)

@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="error_message">Something happened</string>
+    <string name="detail_id">ID: </string>
+    <string name="detail_name">Name: </string>
+    <string name="detail_email">Email: </string>
 </resources>
