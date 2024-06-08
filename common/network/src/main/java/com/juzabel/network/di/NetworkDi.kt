@@ -1,26 +1,26 @@
 package com.juzabel.network.di
 
 import com.juzabel.network.BuildConfig
-import com.juzabel.network.services.SampleService
+import com.juzabel.network.services.UserService
 import com.juzabel.network.session.SessionManager
 import com.juzabel.network.util.RetrofitUtils
+import com.juzabel.util.config.CommonConfig
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.parameter.parametersOf
-import org.koin.core.scope.get
 import org.koin.dsl.module
 import retrofit2.Retrofit
 
 val networkDi = module {
-    single { (url: String) ->
+    single<UserService> {
         RetrofitUtils.createService(
-            get(parameters = { parametersOf(url) }),
-            SampleService::class.java
+            get<Retrofit>(parameters = { parametersOf(get<CommonConfig>()) }),
+            UserService::class.java
         )
     }
-    single<Retrofit> { (url: String) ->
+    single<Retrofit> { (config: CommonConfig) ->
         RetrofitUtils.make(
             get(),
-            url,
+            config.url,
             BuildConfig.DEBUG
         )
     }

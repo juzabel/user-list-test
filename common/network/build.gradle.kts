@@ -4,6 +4,7 @@ plugins {
     id(libs.plugins.kotlin.android.get().pluginId)
     id(libs.plugins.ktlint.get().pluginId)
     id(libs.plugins.detekt.get().pluginId)
+    id(libs.plugins.ksp.plugin.get().pluginId)
 }
 
 android {
@@ -18,6 +19,9 @@ android {
 }
 
 dependencies {
+    implementation(project(path = ":common:util"))
+    ksp(libs.moshi.codegen)
+    implementation(libs.moshi)
     implementation(libs.bundles.koin.bundle)
     implementation(libs.bundles.networking.bundle)
     implementation(libs.core.ktx)
