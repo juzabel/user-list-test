@@ -44,7 +44,6 @@ fun UserListScreen(viewModel: UserListViewModel) {
     val userList by viewModel.userList.collectAsState()
     val state by viewModel.state.collectAsState()
     val error by viewModel.errorToShow.collectAsState()
-    val endScroll by viewModel.endScroll.collectAsState()
     val nextPageAction: () -> Unit = {
         viewModel.onNextPage()
     }
@@ -56,7 +55,6 @@ fun UserListScreen(viewModel: UserListViewModel) {
         UserListState.ERROR -> ErrorMessage(error)
         UserListState.SUCCESS -> UserList(
             userList = userList,
-            endScroll = endScroll,
             nextPageAction = nextPageAction,
             itemClicked = itemClicked
         )
@@ -93,7 +91,6 @@ fun ErrorMessage(error: String?) {
 @Composable
 fun UserList(
     userList: List<User>,
-    endScroll: Boolean,
     nextPageAction: () -> Unit,
     itemClicked: (id: Long) -> Unit
 ) {
@@ -112,7 +109,7 @@ fun UserList(
             UserItem(user = userList[position], itemClicked)
         }
     }
-    if (fetchNextPage && !endScroll) {
+    if (fetchNextPage) {
         nextPageAction()
     }
 }
@@ -184,7 +181,7 @@ fun NameText(modifier: Modifier = Modifier, name: String) {
 @Preview
 @Composable
 fun UserListPreview() {
-    UserList(getSampleList(), false, {}, { 0 })
+    UserList(getSampleList(), {}, { 0 })
 }
 
 private fun getSampleList(): List<User> {

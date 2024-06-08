@@ -31,8 +31,6 @@ class UserListViewModel(
 
     private val _endScroll = MutableStateFlow<Boolean>(false)
 
-    val endScroll = _endScroll.asStateFlow()
-
     val page: MutableStateFlow<Int> = MutableStateFlow(1)
 
     private val _stateResult: StateFlow<AResult<List<User>, Error>> =
@@ -72,8 +70,10 @@ class UserListViewModel(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
 
     fun onNextPage() {
-        viewModelScope.launch {
-            page.emit(page.value + 1)
+        if (!_endScroll.value) {
+            viewModelScope.launch {
+                page.emit(page.value + 1)
+            }
         }
     }
 }
