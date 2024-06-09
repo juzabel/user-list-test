@@ -7,6 +7,7 @@ import com.juzabel.common.viewmodel.user.model.User
 import com.juzabel.errors.Error
 import com.juzabel.userlist.model.UserListState
 import com.juzabel.util.result.AResult
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -21,7 +22,8 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class UserListViewModel(
-    private val remoteDataSource: UserDataSource
+    private val remoteDataSource: UserDataSource,
+    private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<UserListState> = MutableStateFlow(UserListState.START)
@@ -71,7 +73,7 @@ class UserListViewModel(
 
     fun onNextPage() {
         if (!_endScroll.value) {
-            viewModelScope.launch {
+            viewModelScope.launch(dispatcher) {
                 page.emit(page.value + 1)
             }
         }
