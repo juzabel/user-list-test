@@ -23,7 +23,6 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalCoroutinesApi::class)
 class UserListViewModel(
     private val remoteDataSource: UserDataSource,
-    private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<UserListState> = MutableStateFlow(UserListState.START)
@@ -73,7 +72,7 @@ class UserListViewModel(
 
     fun onNextPage() {
         if (!_endScroll.value) {
-            viewModelScope.launch(dispatcher) {
+            viewModelScope.launch {
                 page.emit(page.value + 1)
             }
         }

@@ -10,45 +10,49 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.MockitoAnnotations
 import com.juzabel.userlist.model.UserListState
 import com.juzabel.userlist.viewModel.UserListViewModel
 import com.juzabel.util.result.AResult
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.invoke
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.rules.TestRule
-import org.mockito.kotlin.whenever
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 import com.juzabel.errors.Error as JError
 
-@ExperimentalCoroutinesApi
+@RunWith(JUnit4::class)
 class UserListViewModelTest {
+    @get:Rule
+    val instantExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule
-    val rule: TestRule = InstantTaskExecutorRule()
-
+    val coroutineScope = MainCoroutineRule()
     private var viewModel: UserListViewModel? = null
 
-    @Mock
+    @MockK
     private lateinit var userDataSource: UserDataSource
 
-    private val testDispatcher = StandardTestDispatcher()
-    private val testScope = TestScope(testDispatcher)
-
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setUp() {
-        MockitoAnnotations.openMocks(this)
-        Dispatchers.setMain(testDispatcher)
+        MockKAnnotations.init(this)
+        Dispatchers.setMain(UnconfinedTestDispatcher())
+        viewModel = UserListViewModel(userDataSource)
     }
 
     @After
@@ -57,56 +61,48 @@ class UserListViewModelTest {
     }
 
     @Test
-    fun `state should be START initially`() = testScope.runTest {
-        viewModel = UserListViewModel(userDataSource, testDispatcher)
-        assertEquals(UserListState.START, viewModel!!.state.value)
+    fun `initial state is Start`() = runTest {
+        assertEquals(UserListState.START, viewModel?.state?.value)
     }
 
     @Test
-    fun `fetching user list successfully should emit SUCCESS state`() = testScope.runTest {
-        viewModel = UserListViewModel(userDataSource, testDispatcher)
-
+    fun `get user list is Success`() = runTest {
+        viewModel?.page?.value = 0
         val users = listOf(User("url1", "email1@email.com", "name1", 0, "lastname1"))
-        whenever(userDataSource.getUserList(1)).thenReturn(flowOf(AResult.Success(users)))
-
-        viewModel!!.page.value = 0
-        viewModel!!.onNextPage()
+        coEvery { userDataSource.getUserList(1) } returns flowOf(AResult.Success(users))
+        viewModel?.onNextPage()
         advanceUntilIdle()
 
         assertEquals(UserListState.SUCCESS, viewModel!!.state.value)
         assertEquals(users, viewModel!!.userList.value)
     }
 
+
     @Test
-    fun `fetching user list with error should emit ERROR state`() = testScope.runTest {
-        viewModel = UserListViewModel(userDataSource,testDispatcher)
-
+    fun `get user list is error`() = runTest {
+        viewModel?.page?.value = 0
         val error = JError.Unknown("Unknown error")
-        whenever(userDataSource.getUserList(1)).thenReturn(flowOf(AResult.Failure(error)))
-
-        viewModel!!.onNextPage()
+        coEvery { userDataSource.getUserList(1) } returns flowOf(AResult.Failure(error))
+        viewModel?.onNextPage()
         advanceUntilIdle()
 
-        assertEquals(UserListState.ERROR, viewModel!!.state.value)
-        assertEquals("Error message", viewModel!!.errorToShow.value)
+        assertEquals(UserListState.ERROR, viewModel?.state?.value)
+        assertEquals("Error message", viewModel?.errorToShow?.value)
     }
 
     @Test
-    fun `onNextPage should increment page and fetch next page`() = testScope.runTest {
-        viewModel = UserListViewModel(userDataSource, testDispatcher)
-
+    fun `get paginated list is correct`() = runTest {
+        viewModel?.page?.value = 0
         val usersPage1 = listOf(User("url1", "email1@email.com", "name1", 0, "lastname1"))
         val usersPage2 = listOf(User("url2", "email2@email.com", "name2", 0, "lastname2"))
-
-        whenever(userDataSource.getUserList(1)).thenReturn(flowOf(AResult.Success(usersPage1)))
-        whenever(userDataSource.getUserList(2)).thenReturn(flowOf(AResult.Success(usersPage2)))
-
-        viewModel!!.onNextPage()
+        coEvery { userDataSource.getUserList(1) } returns flowOf(AResult.Success(usersPage1))
+        coEvery { userDataSource.getUserList(2) } returns flowOf(AResult.Success(usersPage2))
+        viewModel?.onNextPage()
         advanceUntilIdle()
-        viewModel!!.onNextPage()
+        viewModel?.onNextPage()
         advanceUntilIdle()
 
-        assertEquals(3, viewModel!!.page.value) // Expected 3 because it starts from 1
-        assertEquals(usersPage1 + usersPage2, viewModel!!.userList.value)
+        assertEquals(3, viewModel?.page?.value) // Expected 3 because it starts from 1
+        assertEquals(usersPage1 + usersPage2, viewModel?.userList?.value)
     }
 }

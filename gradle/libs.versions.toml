@@ -41,8 +41,7 @@ navigationCompose = "2.7.7"
 paging-version = "3.3.0"
 
 #Tests
-mockito-version = "3.+"
-mockito-kotlin-version = "5.3.1"
+mockk-version = "1.13.11"
 coroutines-test-version = "1.9.0-RC"
 core-test-version = "2.2.0"
 
@@ -86,8 +85,7 @@ koin-compose = {module = "io.insert-koin:koin-androidx-compose", version.ref = "
 # Versioned test
 junit = { module = "junit:junit", version.ref = "junit" }
 espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso-core" }
-mockito-core = {module = "org.mockito:mockito-core", version.ref = "mockito-version"}
-mockito-kotlin = {module = "org.mockito.kotlin:mockito-kotlin", version.ref= "mockito-kotlin-version"}
+mockk = {module = "io.mockk:mockk", version.ref = "mockk-version"}
 coroutines-test = {module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref ="coroutines-test-version"}
 core-testing = {module = "androidx.arch.core:core-testing", version.ref = "core-test-version"}
 
@@ -127,4 +125,4 @@ android-test-bundle = ["ext-junit", "espresso-core", "compose-ui-test-junit4"]
 ktx-bundle = ["core-ktx", "lifecycle-runtime-ktx", "coroutines"]
 compose-bundle = ["activity-compose", "compose-ui", "compose-ui-graphics", "compose-ui-tooling-preview", "compose-material3", "coil"]
 paging-bundle = ["paginng-runtime", "paginng-compose"]
-test-bundle = ["junit","mockito-core", "mockito-kotlin", "coroutines-test", "core-testing"]
+test-bundle = ["junit","mockk", "coroutines-test", "core-testing"]

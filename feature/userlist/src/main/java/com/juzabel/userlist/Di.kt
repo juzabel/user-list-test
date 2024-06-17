@@ -16,7 +16,7 @@ val userListDi = module {
             get()
         )
     }
-    viewModel { UserListViewModel(get(named<UserRemoteDataSourceImpl>()), get()) }
+    viewModel { UserListViewModel(get(named<UserRemoteDataSourceImpl>())) }
 
     factory { Dispatchers.IO }
 }
